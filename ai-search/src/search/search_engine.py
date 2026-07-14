@@ -67,7 +67,7 @@ class SearchEngine:
                 "embedding_metadata",
             )
         )
-        if self.metadata is None or len(self.metadata) == 0:
+        if metadata is None or len(metadata) == 0:
             raise RuntimeError("Metadata not loaded.")
         self.mapper = MetadataMapper(
             metadata,
