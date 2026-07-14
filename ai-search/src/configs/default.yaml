@@ -1,0 +1,38 @@
+project:
+  name: Smart CCTV Search
+
+model:
+  name: ViT-B-32
+  pretrained: laion2b_s34b_b79k
+
+embedding:
+  batch_size: 64
+  num_workers: 4
+  normalize: true
+
+device:
+  type: auto
+
+paths:
+  input_dir: data/input/crops
+  output_dir: outputs
+  log_dir: data/logs
+  crop_dir: data/input/crops
+  metadata_csv: data/input/metadata.csv
+  embedding_file: data/embeddings/embeddings.npy
+  embedding_metadata: data/embeddings/embedding_metadata.csv
+  embedding_dir: data/embeddings
+  index_dir: data/indices
+  faiss_index: data/indices/faiss.index
+
+logging:
+  level: INFO
+faiss:
+  dimension: 512
+  metric: ip
+  index_type: flat
+
+search:
+  top_k: 10
+  candidate_pool: 50
+  threshold: 0.20

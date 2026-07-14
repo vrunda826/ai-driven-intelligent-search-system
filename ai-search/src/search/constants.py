@@ -1,0 +1,19 @@
+"""
+Project-wide constants for semantic search.
+"""
+
+DEFAULT_TOP_K = 10
+
+DEFAULT_CANDIDATE_POOL = 50
+
+SIMILARITY_THRESHOLD = 0.20
+
+MAX_QUERY_LENGTH = 256
+
+INDEX_VERSION = "1.0"
+
+SUPPORTED_METRIC = "Inner Product"
+
+SUPPORTED_INDEX = "IndexFlatIP"
+
+EMBEDDING_DTYPE = "float32"

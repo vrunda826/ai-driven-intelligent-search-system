@@ -1,4 +1,93 @@
 ﻿node_modules/
 dist/
 .env
-.DS_Store
+.env.*
+
+
+# =========================
+# Logs
+# =========================
+*.log
+logs/
+**/logs/
+
+# =========================
+# Model Checkpoints
+# =========================
+checkpoints/
+models/checkpoints/
+*.pt
+*.pth
+*.ckpt
+*.onnx
+*.engine
+*.weights
+
+# =========================
+# Outputs / Generated Files
+# =========================
+outputs/
+output/
+reports/
+results/
+predictions/
+embeddings/
+vector_db/
+
+# Keep folder structure
+!**/.gitkeep
+
+# =========================
+# Datasets (Do NOT commit)
+# =========================
+datasets/
+input/
+data/
+sample_data/
+
+# Keep folder structure
+!datasets/**/.gitkeep
+!**/sample_data/.gitkeep
+
+# =========================
+# Frontend
+# =========================
+node_modules/
+dist/
+
+# =========================
+# Docker
+# =========================
+*.pid
+
+# =========================
+# Testing / Coverage
+# =========================
+.pytest_cache/
+.coverage
+htmlcov/
+.mypy_cache/
+.cache/
+
+# =========================
+# Misc
+# =========================
+*.tmp
+*.swp
+data/input/crops/
+data/input/metadata.csv
+data/embeddings/
+data/embeddings/*.npy
+
+data/indices/*.index
+
+data/indices/*.json
+
+logs/*.log
+
+__pycache__/
+
+.pytest_cache/
+
+*.pyc
+.venv/
