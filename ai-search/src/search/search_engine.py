@@ -3,7 +3,8 @@ Semantic Search Engine.
 """
 
 from __future__ import annotations
-
+from search.query_expander import QueryExpander
+from search.diversifier import Diversifier
 import json
 from pathlib import Path
 from time import perf_counter
@@ -86,16 +87,10 @@ class SearchEngine:
         )
         if request.top_k <= 0:
             raise ValueError("top_k must be greater than 0.")
-        candidate_pool = max(
-
-            self.config.get(
-                "search",
-                "candidate_pool",
-            ),
-
-            request.top_k,
-
-        )
+        candidate_pool = min(
+            max(request.top_k * 10,self.config.get(
+                    "search",
+                    "candidate_pool",),),self.faiss.ntotal,)
         self.logger.info(
             f"Top-K : {request.top_k}"
         )
@@ -103,14 +98,27 @@ class SearchEngine:
         self.logger.info(
             f"Candidate Pool : {candidate_pool}"
         )
-        query = QueryPreprocessor.preprocess(request.query)
-        query_embedding = (
-            self.query_embedder.encode(
-                query
-            )
+        query,parsed_filters= QueryPreprocessor.preprocess(request.query)
+        expanded_query = QueryExpander.expand(query)
+
+        query_embedding = self.query_embedder.encode(
+            expanded_query
         )
+        if (request.filters.class_name is None and parsed_filters.class_name):
+            request.filters.class_name = parsed_filters.class_name
+
+        if (
+            request.filters.color is None
+            and parsed_filters.color
+        ):
+            request.filters.color = parsed_filters.color
         if self.faiss is None:
             raise RuntimeError("FAISS index has not been loaded.")
+        candidate_pool = max(
+            request.top_k * 10,
+            candidate_pool,
+        )
+
         scores, indices = self.faiss.search(
             query_embedding,
             candidate_pool,
@@ -137,12 +145,19 @@ class SearchEngine:
             results,
             request.filters,
         )
+        if not results:
+
+            results = self.mapper.map_results(
+                indices,
+                scores,
+            )
         if len(results) == 0:
             return []
+        
         results = ResultRanker.rank(
-            results,
-        )
-
+        results,
+        query=request.query,)
+        results = Diversifier.diversify(results)
         elapsed = perf_counter() - start
 
         self.logger.info(

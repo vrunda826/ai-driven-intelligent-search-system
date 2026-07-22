@@ -117,9 +117,8 @@ def main():
                     f"Class      : {result.class_name}"
                 )
 
-                print(
-                    f"Similarity : {result.similarity_score:.4f}"
-                )
+                print(f"CLIP Score : {result.clip_score:.4f}") 
+                print(f"Final Score: {result.final_score:.4f}")
 
                 print(
                     f"Time       : "

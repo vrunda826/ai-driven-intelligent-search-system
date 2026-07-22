@@ -12,11 +12,24 @@ class FilterConfig:
     Structured filters applied after semantic search.
     """
 
+
     camera_id: Optional[str] = None
     class_name: Optional[str] = None
+
     start_time: Optional[str] = None
     end_time: Optional[str] = None
 
+    color: Optional[str] = None
+
+    vehicle_type: Optional[str] = None
+
+    shirt_color: Optional[str] = None
+    pant_color: Optional[str] = None
+
+    cap: Optional[bool] = None
+    bag: Optional[bool] = None
+    location: Optional[str] = None
+    action: Optional[str] = None
 
 @dataclass(slots=True)
 class SearchRequest:
@@ -42,6 +55,8 @@ class SearchResult:
     last_seen_time: str
     description: str
     similarity_score: float
+    clip_score: float = 0.0
+    final_score: float = 0.0
 
     @property
     def duration(self) -> tuple[str, str]:

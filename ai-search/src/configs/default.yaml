@@ -34,5 +34,5 @@ faiss:
 
 search:
   top_k: 10
-  candidate_pool: 50
+  candidate_pool: 100
   threshold: 0.20

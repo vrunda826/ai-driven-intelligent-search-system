@@ -50,6 +50,8 @@ class MetadataMapper:
                     last_seen_time=row["last_seen_time"],
                     description=row["description"],
                     similarity_score=float(score),
+                    clip_score=float(score),
+                    final_score=float(score),
 
                 )
 
